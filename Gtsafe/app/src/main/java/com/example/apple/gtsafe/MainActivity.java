@@ -15,6 +15,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import org.json.JSONObject;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText epassword;
     private String username;
     private String password;
+
     private String url="http://116.62.220.130:8080/gsaznew/public/login";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,14 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             else {
-                final ProgressDialog logindialog = new ProgressDialog(MainActivity.this);
-                logindialog.show(MainActivity.this,"提示","正在登录中请稍后",true,true);
+//                final ProgressDialog logindialog = new ProgressDialog(MainActivity.this);
+//                logindialog.show(MainActivity.this,"提示","正在登录中请稍后",true,true);
+                final QMUITipDialog tipDialog;
+                tipDialog = new QMUITipDialog.Builder(MainActivity.this)
+                        .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                        .setTipWord("正在登陆中请稍后")
+                        .create();
+                tipDialog.show();
                 HttpParams params = new HttpParams();
                 params.put("account",username);
                 params.put("password",password);
@@ -68,8 +76,10 @@ public class MainActivity extends AppCompatActivity {
                         .execute(new JsonCallback<Login>() {
                             @Override
                             public void onSuccess(Response<Login> response) {
+//                                logindialog.cancel();
+                                tipDialog.dismiss();
                                 if(response.body().status==1) {
-                                    logindialog.cancel();
+
 //                                    Toast.makeText(getApplicationContext(), "成功", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, menuActivity.class);
                                     startActivity(intent);
@@ -90,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
 
 
 
