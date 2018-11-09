@@ -9,7 +9,7 @@ public class contactcateBean
 {
     private  String id;
     private  String name;
-    private List<contactconBean> contact;
+    private List<contactconBean> children;
     private String type;
 
     public String getId() {
@@ -28,12 +28,12 @@ public class contactcateBean
         this.name = name;
     }
 
-    public List<contactconBean> getContact() {
-        return contact;
+    public List<contactconBean> getChildren() {
+        return children;
     }
 
-    public void setContact(List<contactconBean> contact) {
-        this.contact = contact;
+    public void setChildren(List<contactconBean> children) {
+        this.children = children;
     }
 
     public String getType() {

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:id="@+id/bottom_bar"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+
+    android:layout_height="65dp"
+
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:tint="@color/bg_topbar">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/qmui_config_color_10_pure_black"
+            />
+        <RadioGroup
+            android:id="@+id/main_radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/main_rab_house"
+                android:checked="true"
+                android:text="@string/tab_menu_home"
+                style="@style/tab_menu_item"
+                android:drawableTop="@drawable/home_bg"/>
+
+            <RadioButton
+                android:id="@+id/main_rab_connect"
+                style="@style/tab_menu_item"
+                android:text="@string/tab_menu_log"
+                android:drawableTop="@drawable/bianji_bg"
+                />
+            <RadioButton
+                android:id="@+id/main_rab_wifi"
+                style="@style/tab_menu_item"
+                android:text="@string/tab_menu_setting"
+                android:drawableTop="@drawable/peizhi_bg"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+</LinearLayout>

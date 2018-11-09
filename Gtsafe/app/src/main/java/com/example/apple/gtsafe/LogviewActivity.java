@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.example.apple.gtsafe.DB.DBManger;
 import com.example.apple.gtsafe.domain.JsonCallback;
@@ -72,19 +73,7 @@ public class LogviewActivity extends AppCompatActivity {
 
     }
 
-//    private void initListView() {
-//        String[] listItems = new String[]{
-//                "舒淇", "周杰伦", "古天乐", "姚明", "刘德华", "谢霆锋",
-//                "朱时茂", "朱军", "周迅", "赵忠祥", "赵薇", "张国立",
-//                "赵本山", "章子怡", "张艺谋", "张卫健", "张铁林", "袁泉",
-//                "俞小凡", "杨丽萍", "杨澜", "汪峰", "唐国强", "孙楠",
-//                "宋祖英", "斯琴高娃", "撒贝宁", "秦海璐", "任泉", "周杰"
-//        };
-//        mListView_contact.setAdapter(new ArrayAdapter<String>(
-//                LogviewActivity.this,
-//                android.R.layout.simple_list_item_1, listItems
-//        ));
-//    }
+
     private void getData(){
         HttpParams params = new HttpParams();
         params.put("page",1);
@@ -101,5 +90,13 @@ public class LogviewActivity extends AppCompatActivity {
                         dbManger.add(response.body().rows);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        dbManger.delete();
+        dbManger.dbclose();
+
     }
 }

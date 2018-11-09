@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".menuActivity"
-    android:fitsSystemWindows="true"
     android:background="?attr/app_primary_color"
-    >
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".menuActivity">
 
     <com.qmuiteam.qmui.widget.QMUITopBar
         android:id="@+id/topbar"
@@ -16,30 +15,44 @@
         android:layout_height="?attr/qmui_topbar_height" />
 
     <LinearLayout
+        android:id="@+id/id_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
         android:background="@color/app_background_grey"
         android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
-        >
-
-        <GridView
-            android:id="@+id/gridview"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:columnWidth="90dp"
-            android:gravity="center"
-            android:horizontalSpacing="2dp"
-            android:numColumns="3"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="2dp" />
-
+        <!--<GridView-->
+        <!--android:id="@+id/gridview"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:columnWidth="90dp"-->
+        <!--android:gravity="center"-->
+        <!--android:horizontalSpacing="2dp"-->
+        <!--android:numColumns="3"-->
+        <!--android:stretchMode="columnWidth"-->
+        <!--android:verticalSpacing="2dp" />-->
 
 
     </LinearLayout>
+    <!--底部导航栏-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_topbar"
+        android:gravity="center_horizontal">
 
+        <include layout="@layout/bottom_bar"></include>
 
+    </LinearLayout>
 
 
 </LinearLayout>

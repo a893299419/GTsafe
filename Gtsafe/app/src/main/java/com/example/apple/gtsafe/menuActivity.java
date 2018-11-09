@@ -1,16 +1,22 @@
 package com.example.apple.gtsafe;
 
-import android.os.Bundle;
 
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 
 import android.support.v4.content.ContextCompat;
+
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -25,28 +31,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class menuActivity extends AppCompatActivity{
+public class menuActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,ViewPager.OnPageChangeListener{
 
     @BindView(R.id.topbar) QMUITopBar mTopBar;
-    //定义图标数组
-    private int[] imageRes = {
-            R.drawable.zhuye,
-            R.drawable.rizhi,
-            R.drawable.lianxiren,
-            R.drawable.bugao,
-            R.drawable.tubiao,
-            R.drawable.shezhi
-    };
 
-    //定义图标下方的名称数组
-    private String[] name = {
-            "首页",
-            "日志",
-            "联系人",
-            "布告",
-            "图表",
-            "设置"
-    };
 
 
     @Override
@@ -63,58 +51,19 @@ public class menuActivity extends AppCompatActivity{
         initTopBar();
         setContentView(root);
 
+        mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        bindViews();
+        rb_channel.setChecked(true);
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        int length = imageRes.length;
-
-        //生成动态数组，并且转入数据
-        ArrayList<HashMap<String, Object>> lstImageItem = new ArrayList<HashMap<String, Object>>();
-        for (int i = 0; i < length; i++) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("ItemImage", imageRes[i]);//添加图像资源的ID
-            map.put("ItemText", name[i]);//按序号做ItemText
-            lstImageItem.add(map);
-        }
-        //生成适配器的ImageItem 与动态数组的元素相对应
-        SimpleAdapter saImageItems = new SimpleAdapter(this,
-                lstImageItem,//数据来源
-                R.layout.item,//item的XML实现
-
-                //动态数组与ImageItem对应的子项
-                new String[]{"ItemImage", "ItemText"},
-
-                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-                new int[]{R.id.img_shoukuan, R.id.txt_shoukuan});
-        //添加并且显示
-        gridview.setAdapter(saImageItems);
-        //添加消息处理
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                switch (position){
-                    case 0:
-                        break;
-                    case 1:
-                        Intent intent = new Intent(menuActivity.this, LogviewActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                }
-
-//                Toast.makeText(menuActivity.this,name[position],Toast.LENGTH_LONG).show();
-            }
-        });
-
-
+        Drawable drawable1=getResources().getDrawable(R.drawable.home_bg);
+        Drawable drawable2=getResources().getDrawable(R.drawable.bianji_bg);
+        Drawable drawable3=getResources().getDrawable(R.drawable.peizhi_bg);
+        drawable1.setBounds(0,0,100,100);
+        drawable2.setBounds(0,0,100,100);
+        drawable3.setBounds(0,0,100,100);
+        rb_channel.setCompoundDrawables(null,drawable1,null,null);
+        rb_message.setCompoundDrawables(null,drawable2,null,null);
+        rb_better.setCompoundDrawables(null,drawable3,null,null);
     }
 
 
@@ -130,5 +79,80 @@ public class menuActivity extends AppCompatActivity{
 
         mTopBar.setTitle("首页");
 
+    }
+
+    private RadioGroup rg_tab_bar;
+    private RadioButton rb_channel;
+    private RadioButton rb_message;
+    private RadioButton rb_better;
+
+    private ViewPager vpager;
+
+    private MyFragmentPagerAdapter mAdapter;
+
+    //几个代表页面的常量
+    public static final int PAGE_ONE = 0;
+    public static final int PAGE_TWO = 1;
+    public static final int PAGE_THREE = 2;
+
+
+    private void bindViews() {
+
+        rg_tab_bar = (RadioGroup) findViewById(R.id.main_radiogroup);
+        rb_channel = (RadioButton) findViewById(R.id.main_rab_house);
+        rb_message = (RadioButton) findViewById(R.id.main_rab_connect);
+        rb_better = (RadioButton) findViewById(R.id.main_rab_wifi);
+
+        rg_tab_bar.setOnCheckedChangeListener(this);
+
+        vpager = (ViewPager) findViewById(R.id.vpager);
+        vpager.setAdapter(mAdapter);
+        vpager.setCurrentItem(0);
+        vpager.addOnPageChangeListener(this);
+
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.main_rab_house:
+                vpager.setCurrentItem(PAGE_ONE);
+                break;
+            case R.id.main_rab_connect:
+                vpager.setCurrentItem(PAGE_TWO);
+                break;
+            case R.id.main_rab_wifi:
+                vpager.setCurrentItem(PAGE_THREE);
+                break;
+
+        }
+    }
+
+
+    //重写ViewPager页面切换的处理方法
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        //state的状态有三个，0表示什么都没做，1正在滑动，2滑动完毕
+        if (state == 2) {
+            switch (vpager.getCurrentItem()) {
+                case PAGE_ONE:
+                    rb_channel.setChecked(true);
+                    break;
+                case PAGE_TWO:
+                    rb_message.setChecked(true);
+                    break;
+                case PAGE_THREE:
+                    rb_better.setChecked(true);
+                    break;
+            }
+        }
     }
 }

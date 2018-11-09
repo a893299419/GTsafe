@@ -26,6 +26,8 @@ public class DBHelper extends SQLiteOpenHelper
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,name TEXT,type TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS gt_attr"+
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,name TEXT,father TEXT,score TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS gt_cate"+
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,name TEXT,father TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS gt_loginfo"+
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ,contact TEXT,attr TEXT,type TEXT,logid TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS gt_yesterday"+

@@ -9,6 +9,8 @@ import com.example.apple.gtsafe.Bean.logviewBean;
 import com.example.apple.gtsafe.contactBean.contactattrBean;
 import com.example.apple.gtsafe.contactBean.contactcateBean;
 import com.example.apple.gtsafe.contactBean.contactconBean;
+import com.example.apple.gtsafe.domain.LogTpl;
+import com.example.apple.gtsafe.domain.LogTplcate;
 import com.example.apple.gtsafe.domain.Loglist;
 
 import java.util.ArrayList;
@@ -75,7 +77,7 @@ public class DBManger
             for (Loglist.ServerModel logviewbean : logviewBeanList)
             {
                 db.execSQL("INSERT INTO gt_logview VALUES(null,?,?)",new Object[]
-                        {logviewbean.getAddTime(),logviewbean.getStatus()});
+                        {logviewbean.getAddTime(),logviewbean.getStatusName()});
             };
             db.setTransactionSuccessful();
         }
@@ -88,18 +90,21 @@ public class DBManger
             db.endTransaction();
         }
     }
-    public void addcontacttodatabase(List<contactconBean> contactconBeanList)
+    public void addlogtpldatabase(List<LogTpl> logTplList)
     {
         db.beginTransaction();
         try
         {
-            for(contactconBean contactconbean: contactconBeanList)
+            for(LogTpl logTpl: logTplList)
             {
-                db.execSQL("INSERT INTO gt_contact VALUES(null,?,?,?)",new Object[]{contactconbean.getId(),contactconbean.getName(),contactconbean.getType()});
-                if(contactconbean.getAttr()!=null) {
-                    for (contactattrBean contactattrbean : contactconbean.getAttr()) {
-                        db.execSQL("INSERT INTO gt_attr VALUES(null,?,?,?,?)", new Object[]{contactattrbean.getId(), contactattrbean.getName(), contactconbean.getId(),contactattrbean.getScore()});
-                        //System.out.println("234567654345676543456gggg" + contactattrbean.getId() + "????" + contactattrbean.getName() + "&&&&&&" + contactconbean.getId());
+                db.execSQL("INSERT INTO gt_contact VALUES(null,?,?,?)",new Object[]{logTpl.getId(),logTpl.getName()});
+                if(logTpl.getChildren()!=null) {
+                    for (LogTplcate logTplcate : logTpl.getChildren()) {
+                        db.execSQL("INSERT INTO gt_attr VALUES(null,?,?,?,?)", new Object[]{logTplcate.getId(), logTplcate.getName(), logTpl.getId()});
+                        if (logTplcate.getChildren()!=null){
+
+
+                        }
                     }
                 }
             };
@@ -115,6 +120,34 @@ public class DBManger
             db.endTransaction();
         }
     }
+    public void addcontacttodatabase(List<contactconBean> contactconBeanList)
+    {
+        db.beginTransaction();
+        try
+        {
+            for(contactconBean contactconbean: contactconBeanList)
+            {
+//                db.execSQL("INSERT INTO gt_contact VALUES(null,?,?,?)",new Object[]{contactconbean.getId(),contactconbean.getName(),contactconbean.getType()});
+//                if(contactconbean.getAttr()!=null) {
+//                    for (contactattrBean contactattrbean : contactconbean.getAttr()) {
+//                        db.execSQL("INSERT INTO gt_attr VALUES(null,?,?,?,?)", new Object[]{contactattrbean.getId(), contactattrbean.getName(), contactconbean.getId(),contactattrbean.getScore()});
+//                        //System.out.println("234567654345676543456gggg" + contactattrbean.getId() + "????" + contactattrbean.getName() + "&&&&&&" + contactconbean.getId());
+//                    }
+//                }
+            };
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+            //System.out.println("mdkdjfnjkdsnjksd vkjsdf sdfsdfhdskjfhjdsk"+e);
+
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
+
     public void addhistorytodatabase(List<contactconBean> contactconBeanList)
     {
         db.beginTransaction();

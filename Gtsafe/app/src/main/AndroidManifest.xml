@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".menuActivity" />
-        <activity android:name=".LogviewActivity"></activity>
+        <activity android:name=".LogviewActivity" />
+        <activity android:name=".GetlogActivity"></activity>
     </application>
 
 </manifest>

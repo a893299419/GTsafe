@@ -21,6 +21,6 @@ public class GApp extends Application {
     private void initOkGo(){
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.cookieJar(new CookieJarImpl(new DBCookieStore(this)));
-        OkGo.getInstance().init(this);
+        OkGo.getInstance().init(this).setOkHttpClient(builder.build());
     }
 }

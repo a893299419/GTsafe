@@ -10,7 +10,7 @@ public class contactdataBean
     private String id;
     private String number;
     private String pid;
-    private List<contactcateBean> cate;
+    private List<contactcateBean> children;
 
     public String getPid() {
         return pid;
@@ -36,11 +36,11 @@ public class contactdataBean
         this.number = number;
     }
 
-    public List<contactcateBean> getCate() {
-        return cate;
+    public List<contactcateBean> getChildren() {
+        return children;
     }
 
-    public void setCate(List<contactcateBean> cate) {
-        this.cate = cate;
+    public void setChildren(List<contactcateBean> children) {
+        this.children = children;
     }
 }

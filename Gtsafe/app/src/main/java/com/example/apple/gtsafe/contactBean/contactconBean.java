@@ -28,7 +28,7 @@ public class contactconBean
         this.type = type;
     }
 
-    private List<contactattrBean> attr;
+
 
     public String getId() {
         return id;
@@ -45,12 +45,14 @@ public class contactconBean
     public void setName(String name) {
         this.name = name;
     }
-
-    public List<contactattrBean> getAttr() {
-        return attr;
-    }
-
-    public void setAttr(List<contactattrBean> attr) {
-        this.attr = attr;
-    }
+//
+//    private List<contactattrBean> attr;
+//
+//    public List<contactattrBean> getAttr() {
+//        return attr;
+//    }
+//
+//    public void setAttr(List<contactattrBean> attr) {
+//        this.attr = attr;
+//    }
 }

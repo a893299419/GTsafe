@@ -100,7 +100,7 @@ public class Loglist {
         }
 
         public String getStatus() {
-            return status;
+            return statusName;
         }
 
         public void setStatus(String status) {
