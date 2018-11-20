@@ -29,5 +29,7 @@ dependencies {
     implementation 'com.lzy.net:okgo:3.0.4'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.jakewharton:butterknife:8.4.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

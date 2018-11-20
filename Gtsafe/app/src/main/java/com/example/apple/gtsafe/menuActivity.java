@@ -58,9 +58,9 @@ public class menuActivity extends AppCompatActivity implements RadioGroup.OnChec
         Drawable drawable1=getResources().getDrawable(R.drawable.home_bg);
         Drawable drawable2=getResources().getDrawable(R.drawable.bianji_bg);
         Drawable drawable3=getResources().getDrawable(R.drawable.peizhi_bg);
-        drawable1.setBounds(0,0,100,100);
-        drawable2.setBounds(0,0,100,100);
-        drawable3.setBounds(0,0,100,100);
+        drawable1.setBounds(0,0,80,80);
+        drawable2.setBounds(0,0,80,80);
+        drawable3.setBounds(0,0,80,80);
         rb_channel.setCompoundDrawables(null,drawable1,null,null);
         rb_message.setCompoundDrawables(null,drawable2,null,null);
         rb_better.setCompoundDrawables(null,drawable3,null,null);

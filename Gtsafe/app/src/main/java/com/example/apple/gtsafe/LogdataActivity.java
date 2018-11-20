@@ -6,14 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.apple.gtsafe.DB.DBManger;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
@@ -28,11 +26,10 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GetlogActivity extends AppCompatActivity {
+public class LogdataActivity extends AppCompatActivity {
 
     @BindView(R.id.topbar)
     QMUITopBar mTopBar;
-
     DBManger db;
 
     ScrollView scrollView;
@@ -51,26 +48,25 @@ public class GetlogActivity extends AppCompatActivity {
     Date date = new Date(System.currentTimeMillis());
     String addTime = format.format(date);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_get);
+//        setContentView(R.layout.activity_logdata);
         QMUIStatusBarHelper.translucent(this);
 
         //初始化状态栏
-        View root = LayoutInflater.from(this).inflate(R.layout.activity_get, null);
+        View root = LayoutInflater.from(this).inflate(R.layout.activity_logdata, null);
         ButterKnife.bind(this, root);
         initTopBar();
         setContentView(root);
 
         init();
         //上下文
-        LayoutInflater flater = LayoutInflater.from(GetlogActivity.this);
+        LayoutInflater flater = LayoutInflater.from(LogdataActivity.this);
         //获取父控件
         LinearLayout addlog_item = (LinearLayout)findViewById(R.id.addlog_item);
         //获取数据
-        db = new DBManger(GetlogActivity.this);
+        db = new DBManger(LogdataActivity.this);
         logtpllist = db.querrylogtpl();
         catelist = db.querrycate();
         contactlist = db.querrycontact();
@@ -108,6 +104,10 @@ public class GetlogActivity extends AppCompatActivity {
                         RadioButton radioButton = new RadioButton(this);
                         radioButton.setTag(attrlist.get(j).get("id").toString());
                         radioButton.setText(attrlist.get(j).get("name").toString());//+"   "+radioButton.getTag());
+                        if (attrlist.get(j).get("checked").toString().equals("true")){
+                            radioButton.setChecked(true);
+                        }
+                        radioButton.setEnabled(true);
                         group.addView(radioButton, 500, 50);
                         group.setPadding(10, 0, 0, 0);
                         group.setBackgroundColor(Color.rgb(222,222,222));
@@ -125,25 +125,22 @@ public class GetlogActivity extends AppCompatActivity {
             //将元数据添加到父控件
             //addlog_item.addView(view);
         }
+
+
     }
+
 
     private void initTopBar() {
         mTopBar.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GetlogActivity.this, menuActivity.class);
+                Intent intent = new Intent(LogdataActivity.this, menuActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
 
-        mTopBar.addRightTextButton("保存",R.id.qmuidemo).setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mTopBar.setTitle("填写日志");
+        mTopBar.setTitle("日志内容");
     }
 
     public void init()

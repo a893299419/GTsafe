@@ -9,7 +9,10 @@ import com.example.apple.gtsafe.Bean.logviewBean;
 import com.example.apple.gtsafe.contactBean.contactattrBean;
 import com.example.apple.gtsafe.contactBean.contactcateBean;
 import com.example.apple.gtsafe.contactBean.contactconBean;
+import com.example.apple.gtsafe.domain.Chart;
+import com.example.apple.gtsafe.domain.LogContact;
 import com.example.apple.gtsafe.domain.LogTpl;
+import com.example.apple.gtsafe.domain.LogTplattr;
 import com.example.apple.gtsafe.domain.LogTplcate;
 import com.example.apple.gtsafe.domain.Loglist;
 
@@ -69,15 +72,15 @@ public class DBManger
             db.endTransaction();
         }
     }
-    public void add(List<Loglist.ServerModel> logviewBeanList)
-    {
+    //添加图表数据
+    public void addchart(List<Chart.TargetPoint> targetPointList){
         db.beginTransaction();
         try
         {
-            for (Loglist.ServerModel logviewbean : logviewBeanList)
+            for (Chart.TargetPoint targetPoint : targetPointList)
             {
-                db.execSQL("INSERT INTO gt_logview VALUES(null,?,?)",new Object[]
-                        {logviewbean.getAddTime(),logviewbean.getStatusName()});
+                db.execSQL("INSERT INTO gt_chart VALUES(null,?,?)",new Object[]
+                        {targetPoint.getPoint(),targetPoint.getDay()});
             };
             db.setTransactionSuccessful();
         }
@@ -90,34 +93,102 @@ public class DBManger
             db.endTransaction();
         }
     }
-    public void addlogtpldatabase(List<LogTpl> logTplList)
+    public void add(List<Loglist.ServerModel> logviewBeanList)
     {
         db.beginTransaction();
         try
         {
-            for(LogTpl logTpl: logTplList)
+            for (Loglist.ServerModel logviewbean : logviewBeanList)
             {
-                db.execSQL("INSERT INTO gt_contact VALUES(null,?,?,?)",new Object[]{logTpl.getId(),logTpl.getName()});
-                if(logTpl.getChildren()!=null) {
-                    for (LogTplcate logTplcate : logTpl.getChildren()) {
-                        db.execSQL("INSERT INTO gt_attr VALUES(null,?,?,?,?)", new Object[]{logTplcate.getId(), logTplcate.getName(), logTpl.getId()});
-                        if (logTplcate.getChildren()!=null){
-
-
-                        }
-                    }
-                }
+                db.execSQL("INSERT INTO gt_logview VALUES(null,?,?,?,?)",new Object[]
+                        {logviewbean.getId(),logviewbean.getAddTime(),logviewbean.getStatusName(),logviewbean.getScore()+logviewbean.getScore2()+logviewbean.getScore3()});
             };
             db.setTransactionSuccessful();
         }
         catch (Exception e)
         {
-            //System.out.println("mdkdjfnjkdsnjksd vkjsdf sdfsdfhdskjfhjdsk"+e);
 
         }
         finally
         {
             db.endTransaction();
+        }
+    }
+//    public void addlogtpldatabase(List<LogTpl> logTplList)
+//    {
+//        db.beginTransaction();
+//        try
+//        {
+//            for(LogTpl logTpl: logTplList)
+//            {
+//                db.execSQL("INSERT INTO gt_contact VALUES(null,?,?,?)",new Object[]{logTpl.getId(),logTpl.getName()});
+//                if(logTpl.getChildren()!=null) {
+//                    for (LogTplcate logTplcate : logTpl.getChildren()) {
+//                        db.execSQL("INSERT INTO gt_attr VALUES(null,?,?,?,?)", new Object[]{logTplcate.getId(), logTplcate.getName(), logTpl.getId()});
+//                        if (logTplcate.getChildren()!=null){
+//
+//
+//                        }
+//                    }
+//                }
+//            };
+//            db.setTransactionSuccessful();
+//        }
+//        catch (Exception e)
+//        {
+//            //System.out.println("mdkdjfnjkdsnjksd vkjsdf sdfsdfhdskjfhjdsk"+e);
+//
+//        }
+//        finally
+//        {
+//            db.endTransaction();
+//        }
+//    }
+    public void addlogtpldatabase(List<LogTpl> logTplList){
+        db.beginTransaction();
+        try
+        {
+            for(LogTpl logTpl: logTplList)
+            {
+                db.execSQL("INSERT INTO gt_logtpl VALUES(null,?,?)",new Object[]{logTpl.getId(),logTpl.getName()});
+                if(logTpl.getSubContactCateList()!=null) {
+                    for (LogTplcate logTplcate : logTpl.getSubContactCateList()) {
+                        db.execSQL("INSERT INTO gt_logtplcate VALUES(null,?,?,?)", new Object[]{logTplcate.getId(), logTplcate.getName(), logTpl.getId()});
+                        if (logTplcate.getContactList()!=null){
+                            for(LogContact logContact : logTplcate.getContactList()) {
+                                db.execSQL("INSERT INTO gt_logcontact VALUES(null,?,?,?,?)", new Object[]{logContact.getId(), logContact.getName(), logTplcate.getId(),logContact.getType()});
+                                if (logContact.getAttributeList()!=null){
+                                    for(LogTplattr logTplattr : logContact.getAttributeList()){
+                                        db.execSQL("INSERT INTO gt_logattr VALUES(null,?,?,?,?)", new Object[]{logTplattr.getId(), logTplattr.getName(), logContact.getId(),logTplattr.getCheck()});
+
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+            }
+//            for(int i=0;i<logTplList.size();i++){
+//                db.execSQL("INSERT INTO gt_logtpl VALUES(null,?,?)",new Object[]{logTplList.get(i).getId(),logTplList.get(i).getName()});
+//                if(logTplList.get(i).getSubContactCateList()!=null){
+//                    for(int j=0;j<logTplList.get(i).getSubContactCateList().size();j++){
+//                        db.execSQL("INSERT INTO gt_logtplcate VALUES(null,?,?,?)", new Object[]{logTplList.get(i).getSubContactCateList().get(j).getId(), logTplList.get(i).getSubContactCateList().get(j).getName(), logTplList.get(i).getId()});
+//                    }
+//                }
+//            }
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+            System.out.println("mdkdjfnjkdsnjksd vkjsdf sdfsdfhdskjfhjdsk"+e);
+
+        }
+        finally
+        {
+            db.endTransaction();
+            db.close();
         }
     }
     public void addcontacttodatabase(List<contactconBean> contactconBeanList)
@@ -173,8 +244,11 @@ public class DBManger
         try
         {
             db.execSQL("DELETE FROM gt_logview");
-            db.execSQL("DELETE FROM gt_contact");
-            db.execSQL("DELETE FROM gt_attr");
+            db.execSQL("DELETE FROM gt_logcontact");
+            db.execSQL("DELETE FROM gt_logattr");
+            db.execSQL("DELETE FROM gt_chart");
+            db.execSQL("DELETE FROM gt_logtpl");
+            db.execSQL("DELETE FROM gt_logtplcate");
             db.setTransactionSuccessful();
         }
         catch (Exception e)
@@ -202,6 +276,28 @@ public class DBManger
             db.endTransaction();
         }
     }
+    //查询图表状态
+    public List<Map<String,String>> querrychart(){
+        List<Map<String,String>> datalist = new ArrayList<Map<String,String>>();
+        try {
+            Cursor cursor=getquerrychart();
+            while (cursor.moveToNext()){
+                Map<String,String> map = new HashMap<String,String>();
+
+                map.put("point",cursor.getString(cursor.getColumnIndex("point")));
+                map.put("day",cursor.getString(cursor.getColumnIndex("day")));
+                datalist.add(map);
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally {
+            dbclose();
+        }
+        return datalist;
+    }
     //查询日志状态
     public List<Map<String,Object>> querrylog()
     {
@@ -212,7 +308,8 @@ public class DBManger
             while (cursor.moveToNext())
             {
                 Map<String,Object> map =new HashMap<String,Object>();
-                map.put("id",cursor.getString(cursor.getColumnIndex("_id")));
+                map.put("id",cursor.getString(cursor.getColumnIndex("id")));
+                map.put("score",cursor.getString(cursor.getColumnIndex("score")));
                 map.put("addTime",cursor.getString(cursor.getColumnIndex("addTime")));
                 map.put("status",cursor.getString(cursor.getColumnIndex("status")));
                 datalist.add(map);
@@ -223,6 +320,57 @@ public class DBManger
         }
         finally
         {
+
+        }
+        return datalist;
+    }
+    //查询一级分类
+    public List<Map<String,Object>> querrylogtpl()
+    {
+        List <Map<String,Object>> datalist = new ArrayList<Map<String, Object>>();
+        try
+        {
+            Cursor cursor = getquerrylogtpl();
+            while (cursor.moveToNext())
+            {
+                Map<String,Object> map =new HashMap<String,Object>();
+                map.put("name",cursor.getString(cursor.getColumnIndex("name")));
+                map.put("id",cursor.getString(cursor.getColumnIndex("id")));
+                datalist.add(map);
+            }
+        }
+        catch (Exception e)
+        {
+        }
+        finally
+        {
+
+        }
+        return datalist;
+    }
+    //查询二级分类
+    public List<Map<String,Object>> querrycate()
+    {
+        List <Map<String,Object>> datalist = new ArrayList<Map<String, Object>>();
+        try
+        {
+            Cursor cursor = getquerrycate();
+            while (cursor.moveToNext())
+            {
+                System.out.println(cursor.getString(cursor.getColumnIndex("name")));
+                Map<String,Object> map =new HashMap<String,Object>();
+                map.put("name",cursor.getString(cursor.getColumnIndex("name")));
+                map.put("id",cursor.getString(cursor.getColumnIndex("id")));
+                map.put("father",cursor.getString(cursor.getColumnIndex("father")));
+                datalist.add(map);
+            }
+        }
+        catch (Exception e)
+        {
+        }
+        finally
+        {
+
         }
         return datalist;
     }
@@ -238,6 +386,7 @@ public class DBManger
                 Map<String,Object> map =new HashMap<String,Object>();
                 map.put("name",cursor.getString(cursor.getColumnIndex("name")));
                 map.put("id",cursor.getString(cursor.getColumnIndex("id")));
+                map.put("father",cursor.getString(cursor.getColumnIndex("father")));
                 map.put("type",cursor.getString(cursor.getColumnIndex("type")));
                 datalist.add(map);
             }
@@ -247,6 +396,7 @@ public class DBManger
         }
         finally
         {
+
         }
         return datalist;
     }
@@ -262,6 +412,7 @@ public class DBManger
                 Map<String,Object> map =new HashMap<String,Object>();
                 map.put("name",cursor.getString(cursor.getColumnIndex("name")));
                 map.put("father",cursor.getString(cursor.getColumnIndex("father")));
+                map.put("checked",cursor.getString(cursor.getColumnIndex("checked")));
                 map.put("id",cursor.getString(cursor.getColumnIndex("id")));
                 datalist.add(map);
             }
@@ -271,6 +422,7 @@ public class DBManger
         }
         finally
         {
+
         }
         return datalist;
     }
@@ -305,14 +457,26 @@ public class DBManger
         Cursor cursor = db.rawQuery("SELECT * FROM gt_logview",null);
         return cursor;
     }
+    public Cursor getquerrychart(){
+        Cursor cursor = db.rawQuery("SELECT * FROM gt_chart",null);
+        return cursor;
+    }
     public Cursor getquerrycon()
     {
-        Cursor cursor = db.rawQuery("SELECT * FROM gt_contact",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM gt_logcontact",null);
         return cursor;
     }
     public Cursor getquerrattr()
     {
-        Cursor cursor = db.rawQuery("SELECT * FROM gt_attr",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM gt_logattr",null);
+        return cursor;
+    }
+    public Cursor getquerrylogtpl(){
+        Cursor cursor = db.rawQuery("SELECT * FROM gt_logtpl",null);
+        return cursor;
+    }
+    public Cursor getquerrycate(){
+        Cursor cursor = db.rawQuery("SELECT * FROM gt_logtplcate",null);
         return cursor;
     }
     public Cursor getquerryloginfo()

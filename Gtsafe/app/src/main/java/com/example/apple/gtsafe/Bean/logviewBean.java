@@ -28,6 +28,9 @@ public class logviewBean
     private String status;
     private String addTime;
     private  String id;
+    private int score2;
+    private int score3;
+    private int score;
 
     public String getId() {
         return id;
@@ -51,5 +54,29 @@ public class logviewBean
 
     public void setAddTime(String addTime) {
         this.addTime = addTime;
+    }
+
+    public int getScore2() {
+        return score2;
+    }
+
+    public void setScore2(int score2) {
+        this.score2 = score2;
+    }
+
+    public int getScore3() {
+        return score3;
+    }
+
+    public void setScore3(int score3) {
+        this.score3 = score3;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

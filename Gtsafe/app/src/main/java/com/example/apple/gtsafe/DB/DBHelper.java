@@ -21,17 +21,21 @@ public class DBHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db)
     {
         db.execSQL("CREATE TABLE IF NOT EXISTS gt_logview"+
-                "(_id INTEGER PRIMARY KEY AUTOINCREMENT,addTime TEXT,status TEXT)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS gt_contact"+
-                "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,name TEXT,type TEXT)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS gt_attr"+
-                "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,name TEXT,father TEXT,score TEXT)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS gt_cate"+
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,addTime TEXT,status TEXT,score TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS gt_logtpl"+
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,name TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS gt_logtplcate"+
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,name TEXT,father TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS gt_logcontact"+
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,name TEXT,father TEXT,type TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS gt_logattr"+
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT,name TEXT,father TEXT,checked TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS gt_loginfo"+
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ,contact TEXT,attr TEXT,type TEXT,logid TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS gt_yesterday"+
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ,contact TEXT,val TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS gt_chart"+
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT ,point TEXT,day TEXT)");
     }
 
     @Override

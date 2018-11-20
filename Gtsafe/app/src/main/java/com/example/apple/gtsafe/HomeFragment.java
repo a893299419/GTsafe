@@ -11,10 +11,13 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
+import com.example.apple.gtsafe.DB.DBManger;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HomeFragment extends Fragment{
+
 
     //定义图标数组
     private int[] imageRes = {
@@ -67,17 +70,18 @@ public class HomeFragment extends Fragment{
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent;
                 switch (position){
                     case 0:
                         Getlog getlog=new Getlog(getActivity());
                         getlog.getData();
-                        Intent intent2 = new Intent(getActivity(),GetlogActivity.class);
-                        startActivity(intent2);
+                        intent = new Intent(getActivity(),GetlogActivity.class);
+                        startActivity(intent);
 
                         break;
                     case 1:
-                        Intent intent = new Intent(getActivity(), LogviewActivity.class);
+
+                        intent = new Intent(getActivity(), LogviewActivity.class);
                         startActivity(intent);
 
                         break;
@@ -86,6 +90,10 @@ public class HomeFragment extends Fragment{
                     case 3:
                         break;
                     case 4:
+                        GetChartData getChartData=new GetChartData(getActivity());
+                        getChartData.getData();
+                        intent = new Intent(getActivity(), ChartActivity.class);
+                        startActivity(intent);
                         break;
                     case 5:
                         break;

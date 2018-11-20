@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -18,6 +19,10 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUITopBar;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,13 +49,28 @@ public class LogviewActivity extends AppCompatActivity {
         initTopBar();
 //        initListView();
         getData();
+
         dbManger = new DBManger(LogviewActivity.this);
+        final List <Map<String,Object>> datalist = dbManger.querrylog();
         SimpleAdapter simpleAdapter = new SimpleAdapter(LogviewActivity.this,
                 dbManger.querrylog(), R.layout.simple_list_item_2,
-                new String[]{"id","addTime","status"},
+                new String[]{"addTime","score","status"},
                 new int[]{R.id.textview_username,R.id.textview_phonenum,R.id.textview_gender});
         mListView_contact.setAdapter(simpleAdapter);
+        mListView_contact.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
+            @SuppressWarnings("unchecked")
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Getlogdata getlogdata=new Getlogdata(LogviewActivity.this,Integer.parseInt(datalist.get(position).get("id").toString()));
+                getlogdata.getData();
+                Intent intent = new Intent(LogviewActivity.this,LogdataActivity.class);
+                startActivity(intent);
+                finish();
+//                System.out.println(datalist.get(position).get("id"));
+            }
+        });
 
         setContentView(root);
 
@@ -85,9 +105,11 @@ public class LogviewActivity extends AppCompatActivity {
                 .execute(new JsonCallback<Loglist>(){
                     @Override
                     public void onSuccess(Response<Loglist> response) {
-                        dbManger = new DBManger(LogviewActivity.this);
 
+                        dbManger = new DBManger(LogviewActivity.this);
+                        dbManger.delete();
                         dbManger.add(response.body().rows);
+                        dbManger.dbclose();
                     }
                 });
     }
@@ -95,7 +117,7 @@ public class LogviewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        dbManger.delete();
+        if(dbManger!=null)
         dbManger.dbclose();
 
     }

@@ -3,20 +3,15 @@ package com.example.apple.gtsafe.domain;
 import java.util.List;
 
 public class LogTplcate {
-    private String id;
-    private String name;
-    private List<LogTplattr> children;
-    private String number;
-    private int pid;
-    private int counts;
-    private int orderId;
-    private int isShow;
+    public  int id;
+    public String name;
+    public List<LogContact> contactList;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -28,51 +23,11 @@ public class LogTplcate {
         this.name = name;
     }
 
-    public List<LogTplattr> getChildren() {
-        return children;
+    public List<LogContact> getContactList() {
+        return contactList;
     }
 
-    public void setChildren(List<LogTplattr> children) {
-        this.children = children;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public int getPid() {
-        return pid;
-    }
-
-    public void setPid(int pid) {
-        this.pid = pid;
-    }
-
-    public int getCounts() {
-        return counts;
-    }
-
-    public void setCounts(int counts) {
-        this.counts = counts;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public int getIsShow() {
-        return isShow;
-    }
-
-    public void setIsShow(int isShow) {
-        this.isShow = isShow;
+    public void setContactList(List<LogContact> contactList) {
+        this.contactList = contactList;
     }
 }
