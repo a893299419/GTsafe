@@ -50,4 +50,6 @@
     <color name="div_white">#E5E5E5</color>
     <color name="bar">#707070</color>
     <color name="bar_select">#1296db</color>
+
+    <color name="bg_notice">#EBF2F9</color>
 </resources>

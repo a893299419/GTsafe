@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:background="?attr/app_primary_color">
+
     <com.qmuiteam.qmui.widget.QMUITopBar
         android:id="@+id/topbar"
         android:layout_width="match_parent"
