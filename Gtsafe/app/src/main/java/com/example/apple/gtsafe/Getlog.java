@@ -46,6 +46,7 @@ public class Getlog {
                 .execute(new JsonCallback<List<LogTpl>>(type){
                     @Override
                     public void onSuccess(Response<List<LogTpl>> response) {
+                        tipDialog.dismiss();
                        dbManger.delete();
 
                        dbManger.addlogtpldatabase(response.body());

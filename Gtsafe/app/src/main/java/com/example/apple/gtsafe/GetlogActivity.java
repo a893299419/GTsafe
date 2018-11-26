@@ -108,8 +108,9 @@ public class GetlogActivity extends AppCompatActivity {
                         RadioButton radioButton = new RadioButton(this);
                         radioButton.setTag(attrlist.get(j).get("id").toString());
                         radioButton.setText(attrlist.get(j).get("name").toString());//+"   "+radioButton.getTag());
+
                         group.addView(radioButton, 500, 50);
-                        group.setPadding(10, 0, 0, 0);
+                        group.setPadding(10, 5, 0, 5);
                         group.setBackgroundColor(Color.rgb(222,222,222));
                     }
                 }

@@ -10,11 +10,14 @@ import com.example.apple.gtsafe.contactBean.contactattrBean;
 import com.example.apple.gtsafe.contactBean.contactcateBean;
 import com.example.apple.gtsafe.contactBean.contactconBean;
 import com.example.apple.gtsafe.domain.Chart;
+import com.example.apple.gtsafe.domain.Checklist;
 import com.example.apple.gtsafe.domain.LogContact;
 import com.example.apple.gtsafe.domain.LogTpl;
 import com.example.apple.gtsafe.domain.LogTplattr;
 import com.example.apple.gtsafe.domain.LogTplcate;
 import com.example.apple.gtsafe.domain.Loglist;
+import com.example.apple.gtsafe.domain.Message;
+import com.example.apple.gtsafe.domain.Notice;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +38,7 @@ public class DBManger
         dbHelper = new DBHelper(context);
         db = dbHelper.getWritableDatabase();
     }
+
     //添加填报日志列表
     public void addtologview(String addTime,String sturts)
     {
@@ -52,6 +56,23 @@ public class DBManger
         finally {
             db.endTransaction();
 
+        }
+    }
+    //添加登录信息
+    public void addlogin(String account)
+    {
+        db.beginTransaction();
+        try
+        {
+            db.execSQL("INSERT INTO gt_login VALUES(null,?)",new Object[]{account});
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+        }
+        finally
+        {
+            db.endTransaction();
         }
     }
     //添加填报日志信息
@@ -72,6 +93,65 @@ public class DBManger
             db.endTransaction();
         }
     }
+    //添加联系人数据
+    public void addmessage(Message message){
+        db.beginTransaction();
+        try
+        {
+
+                db.execSQL("INSERT INTO gt_message VALUES(null,?,?,?,?)",new Object[]
+                        {message.getId(),message.getTitle(),message.getValue(),message.getGrouping()});
+
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
+    //添加措施数据
+    public void addpolicy(Message message){
+        db.beginTransaction();
+        try
+        {
+            db.execSQL("INSERT INTO gt_policy VALUES(null,?,?,?,?)",new Object[]
+                    {message.getId(),message.getTitle(),message.getValue(),message.getGrouping()});
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
+    //添加布告数据
+    public void addnotice(List<Notice> noticeList){
+        db.beginTransaction();
+        try
+        {
+            for (Notice notice : noticeList)
+            {
+                db.execSQL("INSERT INTO gt_notice VALUES(null,?,?)",new Object[]
+                        {notice.getId(),notice.getContent()});
+            };
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
     //添加图表数据
     public void addchart(List<Chart.TargetPoint> targetPointList){
         db.beginTransaction();
@@ -81,6 +161,28 @@ public class DBManger
             {
                 db.execSQL("INSERT INTO gt_chart VALUES(null,?,?)",new Object[]
                         {targetPoint.getPoint(),targetPoint.getDay()});
+            };
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
+    //添加检查列表
+    public void addcheck(List<Checklist> checklists)
+    {
+        db.beginTransaction();
+        try
+        {
+            for (Checklist checklist : checklists)
+            {
+                db.execSQL("INSERT INTO gt_logview VALUES(null,?,?,?,?)",new Object[]
+                        {checklist.getId(),checklist.getAddTime(),checklist.getStatusName(),checklist.getSummary()});
             };
             db.setTransactionSuccessful();
         }
@@ -188,7 +290,6 @@ public class DBManger
         finally
         {
             db.endTransaction();
-            db.close();
         }
     }
     public void addcontacttodatabase(List<contactconBean> contactconBeanList)
@@ -238,17 +339,111 @@ public class DBManger
             db.endTransaction();
         }
     }
+    public void deletepolicy()
+    {
+        db.beginTransaction();
+        try {
+            db.execSQL("DELETE FROM gt_policy");
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally {
+            db.endTransaction();
+        }
+    }
+    public void deletenotice()
+    {
+        db.beginTransaction();
+        try {
+            db.execSQL("DELETE FROM gt_notice");
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally {
+            db.endTransaction();
+        }
+    }
+    public void deletelogview(){
+        db.beginTransaction();
+        try
+        {
+            db.execSQL("DELETE FROM gt_logview");
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
+    public void deletelogin(){
+        db.beginTransaction();
+        try
+        {
+            db.execSQL("DELETE FROM gt_login");
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
     public void delete()
     {
         db.beginTransaction();
         try
         {
-            db.execSQL("DELETE FROM gt_logview");
             db.execSQL("DELETE FROM gt_logcontact");
             db.execSQL("DELETE FROM gt_logattr");
-            db.execSQL("DELETE FROM gt_chart");
             db.execSQL("DELETE FROM gt_logtpl");
             db.execSQL("DELETE FROM gt_logtplcate");
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
+    public void deletemessage()
+    {
+        db.beginTransaction();
+        try
+        {
+            db.execSQL("DELETE FROM gt_message");
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
+    public void deletechart()
+    {
+        db.beginTransaction();
+        try
+        {
+            db.execSQL("DELETE FROM gt_chart");
             db.setTransactionSuccessful();
         }
         catch (Exception e)
@@ -302,9 +497,10 @@ public class DBManger
     public List<Map<String,Object>> querrylog()
     {
         List <Map<String,Object>> datalist = new ArrayList<Map<String, Object>>();
+        Cursor cursor = getquerrylog();
         try
         {
-            Cursor cursor = getquerrylog();
+
             while (cursor.moveToNext())
             {
                 Map<String,Object> map =new HashMap<String,Object>();
@@ -314,13 +510,16 @@ public class DBManger
                 map.put("status",cursor.getString(cursor.getColumnIndex("status")));
                 datalist.add(map);
             }
+
         }
         catch (Exception e)
         {
         }
         finally
         {
-
+            if (cursor!=null){
+                cursor.close();
+            }
         }
         return datalist;
     }
@@ -452,6 +651,110 @@ public class DBManger
         }
         return datalist;
     }
+    //查询布告信息
+    public List<Map<String,Object>> querrynotice()
+    {
+        List <Map<String ,Object>> datalist = new ArrayList<Map<String, Object>>();
+
+        try
+        {
+            Cursor cursor = getquerrynotice();
+            while(cursor.moveToNext())
+            {
+                Map<String,Object> map = new HashMap<String,Object>();
+                map.put("id",cursor.getString(cursor.getColumnIndex("id")));
+                map.put("content",cursor.getString(cursor.getColumnIndex("content")));
+
+                datalist.add(map);
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally {
+
+        }
+        return datalist;
+    }
+    //查询联系人信息
+    public List<Map<String,Object>> querrymessage()
+    {
+        List <Map<String ,Object>> datalist = new ArrayList<Map<String, Object>>();
+        Cursor cursor = getquerrymessage();
+        try
+        {
+
+            while(cursor.moveToNext())
+            {
+                Map<String,Object> map = new HashMap<String,Object>();
+                map.put("id",cursor.getString(cursor.getColumnIndex("id")));
+                map.put("title",cursor.getString(cursor.getColumnIndex("title")));
+                map.put("value",cursor.getString(cursor.getColumnIndex("value")));
+                map.put("grouping",cursor.getString(cursor.getColumnIndex("grouping")));
+                datalist.add(map);
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally {
+
+        }
+        return datalist;
+    }
+    //查询登录
+    public List<Map<String,Object>> querrylogin()
+    {
+        List <Map<String ,Object>> datalist = new ArrayList<Map<String, Object>>();
+        Cursor cursor = getquerryllogin();
+        try
+        {
+
+            while(cursor.moveToNext())
+            {
+                Map<String,Object> map = new HashMap<String,Object>();
+                map.put("account",cursor.getString(cursor.getColumnIndex("account")));
+                datalist.add(map);
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally {
+
+        }
+        return datalist;
+    }
+    //查询措施
+    public List<Map<String,Object>> querrypolicy()
+    {
+        List <Map<String ,Object>> datalist = new ArrayList<Map<String, Object>>();
+        Cursor cursor = getquerrypolicy();
+        try
+        {
+
+            while(cursor.moveToNext())
+            {
+                Map<String,Object> map = new HashMap<String,Object>();
+                map.put("id",cursor.getString(cursor.getColumnIndex("id")));
+                map.put("title",cursor.getString(cursor.getColumnIndex("title")));
+                map.put("value",cursor.getString(cursor.getColumnIndex("value")));
+                map.put("grouping",cursor.getString(cursor.getColumnIndex("grouping")));
+                datalist.add(map);
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally {
+
+        }
+        return datalist;
+    }
     public Cursor getquerrylog()
     {
         Cursor cursor = db.rawQuery("SELECT * FROM gt_logview",null);
@@ -482,6 +785,26 @@ public class DBManger
     public Cursor getquerryloginfo()
     {
         Cursor cursor = db.rawQuery("SELECT * FROM gt_loginfo",null);
+        return cursor;
+    }
+    public Cursor getquerrynotice()
+    {
+        Cursor cursor = db.rawQuery("SELECT * FROM gt_notice",null);
+        return cursor;
+    }
+    public Cursor getquerrymessage()
+    {
+        Cursor cursor = db.rawQuery("SELECT * FROM gt_message",null);
+        return cursor;
+    }
+    public Cursor getquerrypolicy()
+    {
+        Cursor cursor = db.rawQuery("SELECT * FROM gt_policy",null);
+        return cursor;
+    }
+    public Cursor getquerryllogin()
+    {
+        Cursor cursor = db.rawQuery("SELECT * FROM gt_login",null);
         return cursor;
     }
     public void dbclose()

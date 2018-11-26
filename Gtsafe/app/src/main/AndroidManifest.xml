@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.apple.gtsafe">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".GApp"
         android:allowBackup="true"
@@ -22,7 +24,11 @@
         <activity android:name=".LogviewActivity" />
         <activity android:name=".GetlogActivity" />
         <activity android:name=".ChartActivity" />
-        <activity android:name=".LogdataActivity"></activity>
+        <activity android:name=".LogdataActivity" />
+        <activity android:name=".BugaoActivity" />
+        <activity android:name=".MessageActivity" />
+        <activity android:name=".PolicyActivity" />
+        <activity android:name=".CheckActivity"></activity>
     </application>
 
 </manifest>

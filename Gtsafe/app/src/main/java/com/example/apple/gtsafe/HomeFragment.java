@@ -86,8 +86,12 @@ public class HomeFragment extends Fragment{
 
                         break;
                     case 2:
+                        intent =new Intent(getActivity(),MessageActivity.class);
+                        startActivity(intent);
                         break;
                     case 3:
+                        intent = new Intent(getActivity(),BugaoActivity.class);
+                        startActivity(intent);
                         break;
                     case 4:
                         GetChartData getChartData=new GetChartData(getActivity());
@@ -96,6 +100,8 @@ public class HomeFragment extends Fragment{
                         startActivity(intent);
                         break;
                     case 5:
+                        intent = new Intent(getActivity(), PolicyActivity.class);
+                        startActivity(intent);
                         break;
                 }
 
