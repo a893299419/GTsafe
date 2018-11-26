@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.apple.gtsafe.DB.DBManger;
 import com.example.apple.gtsafe.domain.JsonCallback;
 import com.example.apple.gtsafe.domain.Login;
 import com.lzy.okgo.OkGo;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private String password;
 
     private String url="http://116.62.220.130:8080/gsaznew/public/login";
+    DBManger dbManger;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 HttpParams params = new HttpParams();
                 params.put("account",username);
                 params.put("password",password);
-
+                final String accountlogin = username;
                 OkGo.<Login>post(url)
                         .tag(this)
                         .params(params)
@@ -79,13 +81,16 @@ public class MainActivity extends AppCompatActivity {
 //                                logindialog.cancel();
                                 tipDialog.dismiss();
                                 if(response.body().status==1) {
-
+                                    dbManger=new DBManger(MainActivity.this);
+                                    dbManger.deletelogin();
+                                    dbManger.addlogin(accountlogin);
 //                                    Toast.makeText(getApplicationContext(), "成功", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, menuActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }
                                 else {
+
                                     Toast.makeText(getApplicationContext(), "账号密码错误", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -93,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(Response<Login> response) {
                                 super.onError(response);
+                                tipDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "网络错误", Toast.LENGTH_SHORT).show();
                             }
                         });

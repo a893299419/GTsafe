@@ -44,12 +44,12 @@ public class Getlogdata {
                 .execute(new JsonCallback<List<LogTpl>>(type){
                     @Override
                     public void onSuccess(Response<List<LogTpl>> response) {
-//                        tipDialog.cancel();
+//                        tipDialog.dismiss();
                         dbManger.delete();
 
                         dbManger.addlogtpldatabase(response.body());
 
-                        Toast.makeText(context,response.body().get(0).getSubContactCateList().get(0).getContactList().get(0).getName()+"",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(context,response.body().get(0).getSubContactCateList().get(0).getContactList().get(0).getName()+"",Toast.LENGTH_LONG).show();
                         dbManger.dbclose();
                     }
                 });

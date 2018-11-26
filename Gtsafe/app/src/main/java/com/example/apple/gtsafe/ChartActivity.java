@@ -139,9 +139,10 @@ public class ChartActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if(db!=null){
             db.dbclose();
         }
-        super.onDestroy();
+
     }
 }

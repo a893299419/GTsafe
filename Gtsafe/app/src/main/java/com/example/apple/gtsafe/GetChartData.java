@@ -26,12 +26,12 @@ public class GetChartData {
 
                     @Override
                     public void onSuccess(Response<Chart> response) {
-                        dbManger.delete();
+                        dbManger.deletechart();
 //                        System.out.print("获取到的数据："+response.body());
 
                         dbManger.addchart(response.body().targetPoint);
 //                        Toast.makeText(getApplicationContext(),list2.get(10).point+"",Toast.LENGTH_LONG).show();
-                        dbManger.dbclose();
+
                     }
 
                     @Override

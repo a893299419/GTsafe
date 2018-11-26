@@ -106,8 +106,9 @@ public class LogdataActivity extends AppCompatActivity {
                         radioButton.setText(attrlist.get(j).get("name").toString());//+"   "+radioButton.getTag());
                         if (attrlist.get(j).get("checked").toString().equals("true")){
                             radioButton.setChecked(true);
+                        }else{
+                            radioButton.setEnabled(false);
                         }
-                        radioButton.setEnabled(true);
                         group.addView(radioButton, 500, 50);
                         group.setPadding(10, 0, 0, 0);
                         group.setBackgroundColor(Color.rgb(222,222,222));
@@ -134,7 +135,8 @@ public class LogdataActivity extends AppCompatActivity {
         mTopBar.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LogdataActivity.this, menuActivity.class);
+
+                Intent intent = new Intent(LogdataActivity.this, LogviewActivity.class);
                 startActivity(intent);
                 finish();
             }
